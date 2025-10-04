@@ -84,3 +84,90 @@
   border-radius: 8px;
   margin-bottom: 16px;
 }
+.results-table button {
+  margin: 2px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.results-table button:hover {
+  opacity: 0.8;
+}
+
+.results-table button:nth-child(1) {
+  background-color: #007bff;
+  color: white;
+}
+
+.results-table button:nth-child(2) {
+  background-color: #dc3545;
+  color: white;
+}
+.register-container,
+.results-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.results-table th,
+.results-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.results-table th {
+  background: #f3f3f3;
+}
+
+.results-table button {
+  margin: 2px;
+  padding: 5px 8px;
+}
+
+.results-table button:nth-child(1) {
+  background: #007bff;
+  color: white;
+}
+
+.results-table button:nth-child(2) {
+  background: #dc3545;
+  color: white;
+}

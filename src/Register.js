@@ -1,156 +1,118 @@
-import React, { useState } from "react";
+// src/Register.js
+import React, { useState, useEffect } from "react";
 
 export default function Register() {
   const [nome, setNome] = useState("");
   const [numero, setNumero] = useState("");
   const [participantes, setParticipantes] = useState([]);
-  const [editando, setEditando] = useState(null); // guarda o índice que está sendo editado
+  const [editando, setEditando] = useState(null);
 
-  // Função para adicionar ou salvar edição
-  const salvarParticipante = (e) => {
+  // Carregar participantes salvos
+  useEffect(() => {
+    const dadosSalvos = localStorage.getItem("participantes");
+    if (dadosSalvos) {
+      setParticipantes(JSON.parse(dadosSalvos));
+    }
+  }, []);
+
+  // Salvar participantes no localStorage
+  useEffect(() => {
+    localStorage.setItem("participantes", JSON.stringify(participantes));
+  }, [participantes]);
+
+  // Adicionar novo participante
+  function adicionarParticipante(e) {
     e.preventDefault();
 
     if (!nome || !numero) {
-      alert("Preencha todos os campos!");
+      alert("Por favor, preencha nome e número.");
       return;
     }
 
-    if (editando !== null) {
-      // Atualiza participante existente
-      const listaAtualizada = [...participantes];
-      listaAtualizada[editando] = { nome, numero };
-      setParticipantes(listaAtualizada);
+    if (editando) {
+      const atualizados = participantes.map((p) =>
+        p.id === editando ? { ...p, nome, numero } : p
+      );
+      setParticipantes(atualizados);
       setEditando(null);
     } else {
-      // Adiciona novo participante
-      setParticipantes([...participantes, { nome, numero }]);
+      const novoParticipante = {
+        id: Date.now(),
+        nome,
+        numero,
+      };
+      setParticipantes([...participantes, novoParticipante]);
     }
 
-    // Limpa os campos
     setNome("");
     setNumero("");
-  };
+  }
 
-  // Função para editar um participante
-  const editarParticipante = (index) => {
-    const participante = participantes[index];
-    setNome(participante.nome);
-    setNumero(participante.numero);
-    setEditando(index);
-  };
+  // Editar participante
+  function editarParticipante(p) {
+    setNome(p.nome);
+    setNumero(p.numero);
+    setEditando(p.id);
+  }
 
-  // Função para excluir participante
-  const excluirParticipante = (index) => {
-    const novaLista = participantes.filter((_, i) => i !== index);
-    setParticipantes(novaLista);
-  };
+  // Excluir participante
+  function excluirParticipante(id) {
+    const confirmacao = window.confirm("Tem certeza que deseja excluir?");
+    if (!confirmacao) return;
+
+    const filtrados = participantes.filter((p) => p.id !== id);
+    setParticipantes(filtrados);
+  }
 
   return (
-    <div style={estilos.container}>
+    <div className="register-container">
       <h2>Cadastro de Participantes</h2>
 
-      <form onSubmit={salvarParticipante} style={estilos.form}>
+      <form onSubmit={adicionarParticipante}>
         <input
           type="text"
           placeholder="Nome"
           value={nome}
           onChange={(e) => setNome(e.target.value)}
-          style={estilos.input}
         />
         <input
-          type="text"
-          placeholder="Número da rifa"
+          type="number"
+          placeholder="Número da sorte"
           value={numero}
           onChange={(e) => setNumero(e.target.value)}
-          style={estilos.input}
         />
-        <button type="submit" style={estilos.botao}>
-          {editando !== null ? "Salvar Edição" : "Cadastrar"}
+        <button type="submit">
+          {editando ? "💾 Salvar Alterações" : "➕ Adicionar"}
         </button>
       </form>
 
-      <h3>Lista de Participantes</h3>
-      <table style={estilos.tabela}>
-        <thead>
-          <tr>
-            <th>Número</th>
-            <th>Nome</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {participantes.map((p, index) => (
-            <tr key={index}>
-              <td>{p.numero}</td>
-              <td>{p.nome}</td>
-              <td>
-                <button
-                  onClick={() => editarParticipante(index)}
-                  style={estilos.botaoEditar}
-                >
-                  Editar
-                </button>
-                <button
-                  onClick={() => excluirParticipante(index)}
-                  style={estilos.botaoExcluir}
-                >
-                  Excluir
-                </button>
-              </td>
+      {participantes.length === 0 ? (
+        <p>Nenhum participante cadastrado ainda.</p>
+      ) : (
+        <table className="results-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Número</th>
+              <th>Nome</th>
+              <th>Ações</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {participantes.map((p, i) => (
+              <tr key={p.id}>
+                <td>{i + 1}</td>
+                <td>{p.numero}</td>
+                <td>{p.nome}</td>
+                <td>
+                  <button onClick={() => editarParticipante(p)}>✏️ Editar</button>
+                  <button onClick={() => excluirParticipante(p.id)}>🗑️ Excluir</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
-
-// 🎨 Estilos inline simples
-const estilos = {
-  container: {
-    maxWidth: "600px",
-    margin: "40px auto",
-    textAlign: "center",
-    fontFamily: "Arial, sans-serif",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-    marginBottom: "20px",
-  },
-  input: {
-    padding: "10px",
-    borderRadius: "6px",
-    border: "1px solid #ccc",
-  },
-  botao: {
-    padding: "10px",
-    border: "none",
-    borderRadius: "6px",
-    backgroundColor: "#4caf50",
-    color: "white",
-    cursor: "pointer",
-  },
-  tabela: {
-    width: "100%",
-    borderCollapse: "collapse",
-  },
-  botaoEditar: {
-    backgroundColor: "#ff9800",
-    color: "white",
-    border: "none",
-    padding: "6px 10px",
-    borderRadius: "5px",
-    marginRight: "5px",
-    cursor: "pointer",
-  },
-  botaoExcluir: {
-    backgroundColor: "#f44336",
-    color: "white",
-    border: "none",
-    padding: "6px 10px",
-    borderRadius: "5px",
-    cursor: "pointer",
-  },
-};
