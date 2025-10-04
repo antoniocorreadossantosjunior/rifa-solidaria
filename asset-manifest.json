@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/rifa-solidaria/static/css/main.2e9361db.css",
+    "main.js": "/rifa-solidaria/static/js/main.741f73c8.js",
+    "static/js/453.74214762.chunk.js": "/rifa-solidaria/static/js/453.74214762.chunk.js",
+    "index.html": "/rifa-solidaria/index.html",
+    "main.2e9361db.css.map": "/rifa-solidaria/static/css/main.2e9361db.css.map",
+    "main.741f73c8.js.map": "/rifa-solidaria/static/js/main.741f73c8.js.map",
+    "453.74214762.chunk.js.map": "/rifa-solidaria/static/js/453.74214762.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2e9361db.css",
+    "static/js/main.741f73c8.js"
+  ]
+}
