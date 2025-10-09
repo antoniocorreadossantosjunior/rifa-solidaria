@@ -23,15 +23,6 @@ Projeto desenvolvido em **React.js** para cadastro e sorteio de rifas online.
 - CSS  
 - JavaScript  
 - GitHub Pages (deploy)
-
----
-
-## 📸 Exemplo do projeto
-
-![Tela da Rifa Solidária](https://i.imgur.com/qwZKxkE.png)
-
-*(adicione aqui uma captura de tela do seu projeto — basta tirar print e trocar o link acima)*
-
 ---
 
 ## 💡 Autor
